@@ -146,7 +146,9 @@ components:
           type: string
           description: Description of the product
         category:
-          type: string
+          type: array
+          items:
+            type: string
           description: Category to which product belongs
 
     ProductListDTO:
@@ -174,7 +176,9 @@ components:
           type: string
           description: Description of the product
         category:
-          type: string
+          type: array
+          items:
+            type: string
           description: Category to which product belongs
 
     ErrorResponse:
