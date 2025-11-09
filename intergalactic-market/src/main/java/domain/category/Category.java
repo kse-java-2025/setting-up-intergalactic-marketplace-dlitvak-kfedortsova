@@ -3,9 +3,11 @@ package domain.category;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 @Builder(toBuilder = true)
 public class Category {
-    String id;
+    UUID id;
     String name;
 }

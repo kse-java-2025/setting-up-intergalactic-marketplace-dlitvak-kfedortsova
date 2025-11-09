@@ -5,11 +5,12 @@ import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Value
 @Builder(toBuilder = true)
 public class Order {
-    String id;
+    UUID id;
     List<OrderItem> orderItems;
     Double totalPrice;
     OrderStatus status;

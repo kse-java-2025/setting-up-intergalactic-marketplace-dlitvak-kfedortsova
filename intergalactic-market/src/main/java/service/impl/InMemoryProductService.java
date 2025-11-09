@@ -11,19 +11,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class InMemoryProductService implements ProductService {
 
-    private final Map<String, Product> storage = new HashMap<>();
-    private final AtomicInteger idGenerator = new AtomicInteger(1);
+    private final Map<UUID, Product> storage = new HashMap<>();
 
     @Override
     public Product create(Product product) {
-        String id = String.valueOf(idGenerator.getAndIncrement());
-        Product saved = new Product(
-                id,
-                product.getName(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getCategory() != null ? product.getCategory() : List.of()
-        );
+        UUID id = UUID.randomUUID();
+        Product saved = product.toBuilder().id(id).build();
         storage.put(id, saved);
         return saved;
     }
@@ -34,25 +27,19 @@ public class InMemoryProductService implements ProductService {
     }
 
     @Override
-    public Optional<Product> findById(String id) {
+    public Optional<Product> findById(UUID id) {
         return Optional.ofNullable(storage.get(id));
     }
 
     @Override
-    public Product update(String id, Product product) {
-        Product updated = new Product(
-                id,
-                product.getName(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getCategory()
-        );
+    public Product update(UUID id, Product product) {
+        Product updated = product.toBuilder().id(id).build();
         storage.put(id, updated);
         return updated;
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(UUID id) {
         storage.remove(id);
     }
 }

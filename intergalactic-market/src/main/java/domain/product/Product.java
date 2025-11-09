@@ -1,13 +1,16 @@
 package domain.product;
 
 import domain.category.Category;
+import lombok.Builder;
 import lombok.Value;
 
 import java.util.List;
+import java.util.UUID;
 
 @Value
+@Builder(toBuilder = true)
 public class Product {
-    String id;
+    UUID id;
     String name;
     Double price;
     String description;

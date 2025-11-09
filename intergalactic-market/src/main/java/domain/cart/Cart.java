@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.util.List;
+import java.util.UUID;
 
 @Value
 @Builder(toBuilder = true)
 public class Cart {
-    String id;
+    UUID id;
     List<CartItem> items;
-
 }

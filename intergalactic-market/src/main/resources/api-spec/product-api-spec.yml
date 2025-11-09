@@ -33,18 +33,18 @@ paths:
             schema:
               $ref: '#/components/schemas/ProductDTO'
       responses:
-        '200':
+        '201':
           description: Successful product creation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductDTO'
+                $ref: '#/components/schemas/ProductEntry'
         '400':
           description: Invalid input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/v1/products/{id}:
     get:
@@ -56,7 +56,8 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
+            format: uuid
           description: ID of the product to retrieve
       responses:
         '200':
@@ -64,7 +65,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductDTO'
+                $ref: '#/components/schemas/ProductEntry'
         '404':
           description: Product not found
           content:
@@ -80,7 +81,8 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
+            format: uuid
           description: ID of the product to update
       requestBody:
         description: The product information to update
@@ -88,7 +90,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductDTO'
+              $ref: '#/components/schemas/ProductEntry'
       responses:
         '200':
           description: Product updated successfully
@@ -101,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Product not found
           content:
@@ -117,13 +119,14 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
+            format: uuid
           description: ID of the product to delete
       responses:
         '204':
           description: Product deleted successfully (No Content)
-        '404':
-          description: Product not found
+        '500':
+          description: Bad request
           content:
             application/json:
               schema:
@@ -133,20 +136,24 @@ components:
   schemas:
     ProductDTO:
       type: 'object'
+      required: ["name", "price", "category"]
       properties:
         name:
           type: string
+          minLength: 3
           maxLength: 255
           description: Name of the product
         price:
           type: number
           format: double
+          exclusiveMinimum: 0
           description: Price of the product
         description:
           type: string
           description: Description of the product
         category:
           type: array
+          minItems: 1
           items:
             type: string
           description: Category to which product belongs
@@ -163,8 +170,9 @@ components:
       type: 'object'
       properties:
         id:
-          type: integer
-          description: Unique identifier of the customer
+          type: string
+          format: uuid
+          description: Unique identifier of the product
         name:
           type: string
           description: Name of the product
@@ -184,31 +192,15 @@ components:
     ErrorResponse:
       type: object
       properties:
-        type:
-          type: string
-          description: URI reference identifying the error type
-        title:
-          type: string
-          description: A short description of the error
         status:
           type: integer
           description: HTTP status code
-        detail:
-          type: string
-          description: Detailed description of the error
-
-    ValidationError:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: The HTTP status code
         error:
           type: string
-          description: The HTTP status phrase
+          description: A short description of the error
         message:
           type: string
-          description: A detailed error message
+          description: Detailed description of the error
         path:
           type: string
           description: The path of the request that caused the error

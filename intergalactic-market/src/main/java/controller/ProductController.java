@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id) {
+    public ResponseEntity<?> findById(@PathVariable UUID id) {
         return productService.findById(id)
                 .map(p -> ResponseEntity.ok(mapper.toProductEntry(p)))
                 .orElse(ResponseEntity.notFound().build());
@@ -48,7 +49,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
-            @PathVariable String id,
+            @PathVariable UUID id,
             @Valid @RequestBody ProductDTO dto
     ) {
         Product product = mapper.toProduct(dto);
@@ -61,7 +62,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
         return productService.findById(id)
                 .map(p -> {
                     productService.delete(id);
