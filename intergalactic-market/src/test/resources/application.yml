@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cosmocats-market
+    name: intergalactic-market
 
 application:
   product-service:

@@ -5,28 +5,22 @@ jacoco {
     reportsDirectory = layout.buildDirectory.dir("reports/coverage")
 }
 
-def minCoverage = project.ext.has("minimumCoveragePerFile") ? project.ext.minimumCoveragePerFile : 0.8
-def excludedFiles = project.ext.has("filesExcludedFromCoverage") ? project.ext.filesExcludedFromCoverage : []
-
 tasks.register('integrationTest', Test) {
     description = "Defines the test type 'integrationTest' for thin integration test"
 }
 
 jacocoTestCoverageVerification {
-    description = "Verifies coverage based on defined thresholds on all tests (incl. Unit and Integration)"
-    executionData = fileTree(layout.buildDirectory).include("/jacoco/*.exec")
-
+    description = "Verifies coverage based on defined thresholds on all tests (incl. Unit and Integration))"
+    executionData.setFrom(fileTree(layout.buildDirectory).include("/jacoco/*.exec"))
     violationRules {
         rule {
             enabled = true
             failOnViolation = true
             element = 'SOURCEFILE'
-
-            excludes = excludedFiles
-
+            excludes = filesExcludedFromCoverage
             limit {
                 counter = 'LINE'
-                minimum = minCoverage
+                minimum = minimumCoveragePerFile
             }
         }
     }
@@ -44,13 +38,11 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir("reports/coverage")
         csv.outputLocation = layout.buildDirectory.file("reports/coverage/coverage.csv").get().asFile
     }
-
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: excludedFiles)
+            fileTree(dir: it, exclude: filesExcludedFromCoverage)
         }))
     }
-
     finalizedBy jacocoTestCoverageVerification
 }
 
