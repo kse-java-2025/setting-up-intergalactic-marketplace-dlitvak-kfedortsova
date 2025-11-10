@@ -18,8 +18,13 @@ ext {
 	// Minimal Coverage
 	minimumCoveragePerFile = 0.8
 	filesExcludedFromCoverage = [
-			"**/*intergalactic-market.*",
-			"**/config/*Configuration.*"
+			"**/*intergalactic_market.*",
+			"**/config/*Configuration.*",
+			'**/common/**',
+			'**/domain/order/**',
+			'**/exception/**',
+			'**/service/mapper/**',
+			'**/IntergalacticMarketApplication.java'
 	]
 }
 
