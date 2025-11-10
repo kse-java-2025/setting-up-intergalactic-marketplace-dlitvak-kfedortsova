@@ -1,12 +1,12 @@
 package dto.product;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.Value;
 import validators.CosmicWordCheck;
 
 import java.util.List;
 
-@Data
+@Value
 public class ProductDTO {
 
     @NotBlank(message = "Name is required and should not be empty")
