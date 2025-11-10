@@ -34,7 +34,7 @@ jobs:
           restore-keys: |
             gradle-
       - name: Grant execute permission for Gradlew
-        working-directory: .
+        working-directory: intergalactic-market
         run: chmod +x ./gradlew
 
       # Run Gradle build and tests with coverage
@@ -49,4 +49,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-coverage-report
-          path: build/reports/coverage/index.html
+          path: intergalactic-market/build/reports/coverage/index.html
