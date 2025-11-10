@@ -156,7 +156,7 @@ components:
           minItems: 1
           items:
             type: string
-          description: Category to which product belongs
+          description: CosmicCategory to which product belongs
 
     ProductListDTO:
       type: object
@@ -187,7 +187,7 @@ components:
           type: array
           items:
             type: string
-          description: Category to which product belongs
+          description: CosmicCategory to which product belongs
 
     ErrorResponse:
       type: object
