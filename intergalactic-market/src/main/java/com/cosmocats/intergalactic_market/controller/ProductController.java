@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -67,10 +68,17 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         return productService.findById(id)
-                .map(p -> {
-                    productService.delete(id);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+            .map(product -> {
+                productService.delete(id);
+                return ResponseEntity.noContent().build();
+            })
+            .orElseGet(() -> ResponseEntity.internalServerError().body(
+                Map.of(
+                        "status", 500,
+                        "error", "Product not found",
+                        "message", "No product found with ID " + id,
+                        "path", "/api/v1/products/" + id
+                )
+            ));
     }
 }
