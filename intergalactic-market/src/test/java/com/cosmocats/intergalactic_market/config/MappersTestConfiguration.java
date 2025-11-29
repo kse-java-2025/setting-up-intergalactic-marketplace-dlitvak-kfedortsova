@@ -11,9 +11,4 @@ public class MappersTestConfiguration {
     public ProductMapper productMapper() {
         return Mappers.getMapper(ProductMapper.class);
     }
-
-    @Bean
-    public ProductServiceMapper paymentServiceMapper(){
-        return Mappers.getMapper(ProductServiceMapper.class);
-    }
 }
