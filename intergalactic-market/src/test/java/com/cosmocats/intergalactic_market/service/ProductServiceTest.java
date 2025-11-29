@@ -1,7 +1,7 @@
 package com.cosmocats.intergalactic_market.service;
 
 import com.cosmocats.intergalactic_market.domain.product.Product;
-import com.cosmocats.intergalactic_market.service.impl.InMemoryProductService;
+import com.cosmocats.intergalactic_market.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProductServiceTest {
-    private InMemoryProductService productService;
+    private ProductServiceImpl productService;
 
     @BeforeEach
     void setUp() {
-        productService = new InMemoryProductService();
+        productService = new ProductServiceImpl();
     }
 
     @Test

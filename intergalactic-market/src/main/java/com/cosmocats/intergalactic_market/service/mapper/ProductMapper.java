@@ -10,10 +10,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
+import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = UUID.class)
 public interface ProductMapper {
-    // mapping Product to ProductEntry
+
     @Mapping(target = "category", source = "category", qualifiedByName = "toCategoryString")
     ProductEntry toProductEntry(Product product);
 
@@ -26,25 +27,24 @@ public interface ProductMapper {
                 .toList();
     }
 
-    // mapping DTO (ProductDTO) to Product
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "category", source = "category", qualifiedByName = "toCategoryEnum")
-    Product toProduct(ProductDTO productDTO);
-
-    @Named("toCategoryEnum")
-    default CosmicCategory toCategoryEnum(String category) {
-        try {
-            return CosmicCategory.valueOf(category.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid category: " + category);
-        }
-    }
-
-    // Product List to ProductListDTO
     default ProductListDTO toProductListDTO(List<Product> products) {
         List<ProductEntry> entries = products.stream().map(this::toProductEntry).toList();
         return ProductListDTO.builder().products(entries).build();
     }
 
-    List<ProductEntry> toProductEntry(List<Product> product);
+    @Mapping(target = "id", expression = "java(UUID.randomUUID())")
+    @Mapping(target = "category", source = "category", qualifiedByName = "toCategoryEnum")
+    Product toProduct(ProductDTO productDTO);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "category", source = "category", qualifiedByName = "toCategoryEnum")
+    Product toProductForUpdate(ProductDTO productDTO);
+
+    @Named("toCategoryEnum")
+    default List<CosmicCategory> toCategoryEnum(List<String> categories) {
+        if (categories == null) return List.of();
+        return categories.stream()
+                .map(c -> CosmicCategory.valueOf(c.toUpperCase()))
+                .toList();
+    }
 }

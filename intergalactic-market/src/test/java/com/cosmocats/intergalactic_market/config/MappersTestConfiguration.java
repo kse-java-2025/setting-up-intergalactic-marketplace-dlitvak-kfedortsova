@@ -3,7 +3,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import com.cosmocats.intergalactic_market.service.mapper.ProductMapper;
-import com.cosmocats.intergalactic_market.service.mapper.ProductServiceMapper;
 
 @TestConfiguration
 public class MappersTestConfiguration {
