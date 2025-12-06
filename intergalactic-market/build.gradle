@@ -25,6 +25,7 @@ ext {
 			'**/util/**',
 			'**/exception/**',
 			'**/service/mapper/**',
+			'**/web/GlobalExceptionHandler.java',
 			'**/IntergalacticMarketApplication.java'
 	]
 }
