@@ -1,0 +1,43 @@
+databaseChangelog:
+  - changeSet:
+      id: lab-3-2-1
+      author: dlitvak
+      changes:
+        - createTable:
+            tableName: orders_entry
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+              - addForeignKeyConstraint:
+                  baseTableName: orders_entry
+                  baseColumnNames: order_id
+                  referencedTableName: orders
+                  referencedColumnNames: id
+                  constraintName: fk_entry_order
+
+              - addForeignKeyConstraint:
+                  baseTableName: orders_entry
+                  baseColumnNames: product_id
+                  referencedTableName: product
+                  referencedColumnNames: id
+                  constraintName: fk_entry_product

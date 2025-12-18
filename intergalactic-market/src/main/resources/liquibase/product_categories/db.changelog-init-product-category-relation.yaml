@@ -1,0 +1,38 @@
+databaseChangelog:
+  - changeSet:
+      id: lab-3-1-3
+      author: dlitvak
+      changes:
+        - createTable:
+            tableName: product_category
+            columns:
+              - column:
+                  name: product_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            tableName: product_category
+            columnNames: product_id, category_id
+            constraintName: pk_product_category
+
+        - addForeignKeyConstraint:
+            baseTableName: product_category
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnName: id
+            constraintName: fk_pc_product
+
+        - addForeignKeyConstraint:
+            baseTableName: product_category
+            baseColumnNames: category_id
+            referencedTableName: categories
+            referencedColumnName: id
+            constraintName: fk_pc_category

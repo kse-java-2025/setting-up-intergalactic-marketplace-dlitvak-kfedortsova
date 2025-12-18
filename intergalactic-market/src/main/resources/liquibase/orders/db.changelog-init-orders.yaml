@@ -1,0 +1,23 @@
+databaseChangelog:
+  - changeSet:
+      id: lab-3-2-1
+      author: dlitvak
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: total_price
+                  type: DECIMAL(10,2)
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+              - column:
+                  name: order_time
+                  type: TIMESTAMP
