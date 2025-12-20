@@ -1,0 +1,4 @@
+application:
+  product-service:
+    base-path: http://localhost:8089
+    products: ${application.product-service.base-path}/api/v1/products
